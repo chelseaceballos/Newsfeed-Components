@@ -1,4 +1,5 @@
 // This is the data we will be using to create our articles. Look at it, then proceed to line 93.
+
 // OPTIONAL: if you're feeling adventurous, try to make this data an export from a different module, and import it here.
 // You can read about ES6 modules here: https://exploringjs.com/es6/ch_modules.html#sec_basics-of-es6-modules
 const data = [
@@ -86,6 +87,13 @@ const data = [
     thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
+  {
+    title: 'Chelseas Add',
+    date: 'March 10, 2021',
+    firstParagraph: `Chelsea Says Hi!`,
+    secondParagraph: `How are you today?`,
+    thirdParagraph: `Have a Nice Day.`
   }
 ];
 
@@ -94,13 +102,15 @@ const data = [
   Your component is a function that takes an article object as its only argument,
   and returns a DOM node looking like the one below:
 
-  <div class="article">
-    <h2>{title of the article}</h2>
-    <p class="date">{date of the article}</p>
+  <div class="article">  🎯(article, class1)
+    <h2>{title of the article}</h2> 🎯(articleTitle)
+    <p class="date">{date of the article}</p> 🎯(articleDate, class2)
 
-    {three separate paragraph elements}
+    {three separate paragraph elements}🎯(articleP1)
+                                        🎯(articleP2)
+                                        🎯(articleP3)
 
-    <span class="expandButton">+</span>
+    <span class="expandButton">+</span> 🎯(articleExpandBtn, class3)
   </div>
 
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
@@ -114,3 +124,74 @@ const data = [
   Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
   Refresh the page to see the new article.
 */
+  //step1
+  const articleContainer = document.querySelector(".articles");
+
+  data.forEach(feature => {
+    articleContainer.appendChild(
+      createArticle(
+        feature.title,
+        feature.date,
+        feature.firstParagraph,
+        feature.secondParagraph,
+        feature.thirdParagraph
+      )
+    );
+  });
+  
+  function createArticle(
+    title,
+    date,
+    firstParagraph,
+    secondParagraph,
+    thirdParagraph
+  ) {
+    // create elements (div, h2, p, span)
+  
+    const article = document.createElement("div");
+    const articleTitle = document.createElement("h2");
+    const articleDate = document.createElement("p");
+    const articleP1 = document.createElement("p");
+    const articleP2 = document.createElement("p");
+    const articleP3 = document.createElement("p");
+    const articleExpandBtn = document.createElement("span");
+  
+    // give elements a holder
+  
+    const itemsHolder = [
+      articleTitle,
+      articleDate,
+      articleP1,
+      articleP2,
+      articleP3,
+      articleExpandBtn
+    ];
+  
+    function appendChildren(parent, children) {
+      children.forEach(child => {
+        parent.appendChild(child);
+      });
+    };
+  
+    appendChildren(article, itemsHolder);
+  
+    // article.classList.add("");
+    article.classList.add("article");
+    articleDate.classList.add("date");
+    articleExpandBtn.classList.add("expandButton");
+  
+    // set .textContent = xyz;
+    articleExpandBtn.textContent = "Click to Expand";
+    articleTitle.textContent = title;
+    articleDate.textContent = date;
+    articleP1.textContent = firstParagraph;
+    articleP2.textContent = secondParagraph;
+    articleP3.textContent = thirdParagraph;
+  
+    // 'click' event that toggles article-open
+    articleExpandBtn.addEventListener("click", () => {
+      article.classList.toggle("article-open");
+    });
+    return article;
+  };
+  
